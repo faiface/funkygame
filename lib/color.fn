@@ -22,6 +22,12 @@ func alpha : Float -> Color =
     \a
     Color a a a a
 
+func == : Color -> Color -> Bool =
+    \c \d
+    (r c == r d) && (g c == g d) && (b c == b d) && (a c == a d)
+
+func != : Color -> Color -> Bool = not (==)
+
 func + : Color -> Color -> Color =
     \c \d
     Color (r c + r d) (g c + g d) (b c + b d) (a c + a d)
@@ -37,14 +43,6 @@ func * : Color -> Float -> Color = flip (*)
 func * : Color -> Color -> Color =
     \c \d
     Color (r c * r d) (g c * g d) (b c * b d) (a c * a d)
-
-func == : Color -> Color -> Bool =
-    \c \d
-    (r c == r d) && (g c == g d) && (b c == b d) && (a c == a d)
-
-func != : Color -> Color -> Bool =
-    \c \d
-    (r c != r d) || (g c != g d) || (b c != b d) || (a c != a d)
 
 func over : Color -> Color -> Color =
     \fg \bg

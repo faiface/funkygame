@@ -1,3 +1,19 @@
-func center-image : Point -> Image -> Sprite =
-    \center \image
-    Sprite image center (pt (float (width image) / 2.0) (float (height image) / 2.0)) 0.0 1.0 white
+union Filter = nearest | linear
+
+union Alignment =
+    top-left    | top    | top-right    |
+    left        | center | right        |
+    bottom-left | bottom | bottom-right |
+
+record Sprite =
+    image     : Image,
+    filter    : Filter,
+    mask      : Color,
+    position  : Point,
+    alignment : Alignment,
+    rotation  : Float,
+    scale     : Float,
+
+func new-sprite : Image -> Filter -> Point -> Alignment -> Sprite =
+    \image \filter \position \alignment
+    Sprite image filter white position alignment 0.0 1.0

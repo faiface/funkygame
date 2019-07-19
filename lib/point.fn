@@ -1,30 +1,65 @@
-record Point = x : Float, y : Float
+record Point =
+    x : Float,
+    y : Float,
+
+record Vector =
+    dx : Float,
+    dy : Float,
+
+# Vector functions
+
+func vec : Float -> Float -> Vector = Vector
+func zero : Vector = Vector 0.0 0.0
+
+func == : Vector -> Vector -> Bool =
+    \v1 \v2
+    (dx v1 == dx v2) && (dy v1 == dy v2)
+
+func != : Vector -> Vector -> Bool = not (==)
+
+func + : Vector -> Vector -> Vector =
+    \v1 \v2
+    Vector (dx v1 + dx v2) (dy v1 + dy v2)
+
+func - : Vector -> Vector -> Vector =
+    \v1 \v2
+    Vector (dx v1 - dx v2) (dy v1 - dy v2)
+
+func * : Float -> Vector -> Vector =
+    \k \v
+    Vector (k * dx v) (k * dy v)
+
+func * : Vector -> Float -> Vector = flip (*)
+
+func / : Vector -> Float -> Vector =
+    \v \k
+    Vector (dx v / k) (dy v / k)
+
+func length : Vector -> Float = \v hypot (dx v) (dy v)
+func angle  : Vector -> Float = \v atan2 (dy v) (dx v)
+
+func rotate : Float -> Vector -> Vector =
+    \alpha \v
+    Vector ((cos alpha * dx v) - (sin alpha * dy v))
+           ((sin alpha * dx v) + (cos alpha * dy v))
+
+# Point functions
 
 func pt : Float -> Float -> Point = Point
+func origin : Point = Point 0.0 0.0
 
-func zero : Point = Point 0.0 0.0
+func == : Point -> Point -> Bool =
+    \p1 \p2
+    (x p1 == x p2) && (y p1 == y p2)
 
-func + : Point -> Point -> Point =
-    \u \v
-    Point (x u + x v) (y u + y v)
+func + : Point -> Vector -> Point =
+    \p \v
+    Point (x p + dx v) (y p + dy v)
 
-func - : Point -> Point -> Point =
-    \u \v
-    Point (x u - x v) (y u - y v)
+func - : Point -> Vector -> Point =
+    \p \v
+    Point (x p - dx v) (y p - dy v)
 
-func * : Point -> Float -> Point =
-    \u \k
-    Point (x u * k) (y u * k)
-
-func * : Float -> Point -> Point =
-    \k \u
-    Point (k * x u) (k * y u)
-
-func / : Point -> Float -> Point =
-    \u \k
-    Point (x u / k) (y u / k)
-
-func length : Point -> Float = \u hypot (x u) (y u)
-func angle  : Point -> Float = \u atan2 (y u) (x u)
-
-func unit : Point -> Point = \u u / length u
+func - : Point -> Point -> Vector =
+    \p1 \p2
+    Vector (x p1 - x p2) (y p1 - y p2)

@@ -1,0 +1,10 @@
+record Image =
+    id     : Int,
+    width  : Int,
+    height : Int,
+
+record Font =
+    id   : Int,
+    size : Float,
+
+func basic-font-7x13 : Font = Font 0 13.0
